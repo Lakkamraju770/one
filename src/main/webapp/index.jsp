@@ -1,642 +1,501 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoShop · modern e‑commerce</title>
-  <!-- Font Awesome Icons (free) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <!-- Google Font: Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Catalog E‑commerce</title>
+  <!-- Font Awesome Icons & Google Font (Inter) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: #f8fafc;
-      color: #0b1a2f;
-      line-height: 1.5;
-      padding: 2rem 1rem;
+      background: #f6f8fc;
+      color: #1e293b;
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
 
-    /* main card */
-    .product-card {
-      max-width: 1200px;
-      width: 100%;
-      background: #ffffff;
-      border-radius: 2.5rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      transition: all 0.2s ease;
+    /* header & navigation */
+    header {
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e9edf2;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(4px);
+      background: rgba(255,255,255,0.92);
     }
 
-    /* ------- left column: gallery -------- */
-    .gallery {
-      background: #f1f5f9;
-      padding: 2rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .main-image {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: #e2e8f0;
-      border-radius: 2rem;
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 6rem;
-      color: #1e3a5f;
-      box-shadow: inset 0 8px 12px rgba(0,0,0,0.02);
-      transition: background 0.2s;
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-    }
-
-    .main-image i {
-      filter: drop-shadow(0 8px 12px rgba(0,20,40,0.1));
-    }
-
-    .thumbnails {
-      display: flex;
-      gap: 0.8rem;
+      justify-content: space-between;
       flex-wrap: wrap;
-      justify-content: center;
+      gap: 1rem;
     }
 
-    .thumb {
-      width: 70px;
-      height: 70px;
-      background: #e9edf3;
-      border-radius: 1.2rem;
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #0f172a;
+    }
+    .logo i {
+      color: #3b82f6;
+      margin-right: 6px;
+    }
+
+    .catalog-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .catalog-btn {
+      background: transparent;
+      border: 1px solid #d1d9e6;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.15s;
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
+      background: white;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .catalog-btn i {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    .catalog-btn:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+      transform: translateY(-1px);
+    }
+
+    .catalog-btn.active {
+      background: #1e293b;
+      border-color: #1e293b;
+      color: white;
+      box-shadow: 0 4px 10px rgba(30,41,59,0.15);
+    }
+    .catalog-btn.active i {
+      color: white;
+    }
+
+    .cart-icon {
+      font-size: 1.3rem;
+      background: #f1f5f9;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+    .cart-icon i {
+      color: #0f172a;
+    }
+    .cart-badge {
+      background: #3b82f6;
+      color: white;
+      border-radius: 30px;
+      padding: 0.1rem 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* main container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* page header */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .page-header h1 {
+      font-weight: 600;
       font-size: 2rem;
-      color: #1e3a5f;
-      cursor: pointer;
-      border: 2px solid transparent;
+      letter-spacing: -0.3px;
+    }
+    .page-header h1 small {
+      font-weight: 400;
+      font-size: 1rem;
+      color: #64748b;
+      margin-left: 12px;
+    }
+    .page-header .count {
+      background: #e9edf2;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      color: #1e293b;
+    }
+
+    /* product grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.2rem 1.2rem 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.03);
       transition: all 0.2s;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-    }
-
-    .thumb:hover {
-      background: #d9e0eb;
-      border-color: #b0c4db;
-    }
-
-    .thumb.active {
-      background: #d0dcee;
-      border-color: #1e4a7a;
-      box-shadow: 0 4px 10px rgba(26, 67, 113, 0.15);
-    }
-
-    /* -------- right column: details --------- */
-    .details {
-      padding: 2.5rem 2.5rem 2.5rem 2rem;
+      border: 1px solid #edf2f7;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: #cbd5e1;
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08);
     }
 
-    .breadcrumb {
-      font-size: 0.8rem;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      color: #5f6c80;
-      margin-bottom: 0.75rem;
+    .product-image {
+      background: #f8fafc;
+      border-radius: 16px;
+      height: 180px;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 3.5rem;
+      color: #94a3b8;
+      border: 1px solid #eef2f6;
+      transition: background 0.2s;
     }
-
-    .breadcrumb i {
-      font-size: 0.6rem;
-      color: #8b9bb5;
+    .product-card:hover .product-image {
+      background: #f1f5f9;
     }
 
     .product-title {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-bottom: 0.5rem;
-      color: #0b1a2f;
-    }
-
-    .rating {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .stars {
-      color: #f5b342;
-      letter-spacing: 0.1rem;
+      font-weight: 600;
       font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+      line-height: 1.3;
     }
-
-    .rating-text {
-      font-size: 0.9rem;
-      color: #3f4e66;
-      background: #ecf1f7;
-      padding: 0.2rem 0.8rem;
-      border-radius: 40px;
-      font-weight: 500;
-    }
-
-    .price-box {
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      margin-bottom: 1.2rem;
-      flex-wrap: wrap;
-    }
-
-    .current-price {
-      font-size: 2.4rem;
-      font-weight: 700;
-      color: #0a2942;
-    }
-
-    .old-price {
-      font-size: 1.2rem;
-      color: #7a8a9e;
-      text-decoration: line-through;
-      font-weight: 400;
-    }
-
-    .discount-badge {
-      background: #e5f0e9;
-      color: #1e6b4c;
-      font-weight: 600;
-      font-size: 0.8rem;
-      padding: 0.2rem 1rem;
+    .product-catalog-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      background: #eef2ff;
+      color: #4338ca;
+      padding: 0.2rem 0.7rem;
       border-radius: 30px;
-      letter-spacing: 0.02em;
-    }
-
-    .description {
-      color: #2a3b52;
-      margin: 0.8rem 0 1.5rem 0;
-      font-size: 1rem;
-      line-height: 1.6;
-      max-width: 90%;
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-      margin: 0.5rem 0 1.8rem 0;
-    }
-
-    .size-selector {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .size-label {
+      display: inline-block;
+      margin-bottom: 0.7rem;
       font-weight: 600;
+    }
+    .product-price {
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #0f172a;
+      margin-top: 0.2rem;
+    }
+    .product-price small {
+      font-weight: 400;
       font-size: 0.9rem;
-      color: #1f344d;
-      letter-spacing: 0.02em;
-      margin-right: 0.2rem;
+      color: #64748b;
+      margin-left: 4px;
+    }
+    .product-desc {
+      color: #475569;
+      font-size: 0.9rem;
+      margin: 0.5rem 0 1rem;
+      line-height: 1.4;
+      flex: 1;
     }
 
-    .size-btn {
-      background: #f1f5f9;
+    .add-btn {
+      background: #1e293b;
       border: none;
-      padding: 0.4rem 1.2rem;
-      border-radius: 40px;
+      color: white;
+      font-weight: 600;
+      padding: 0.7rem 0;
+      border-radius: 60px;
       font-size: 0.9rem;
-      font-weight: 500;
-      color: #1a2d45;
       cursor: pointer;
       transition: all 0.15s;
-      border: 1.5px solid transparent;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .size-btn:hover {
-      background: #e2e9f2;
-    }
-
-    .size-btn.active {
-      background: #1a2d45;
-      color: white;
-      border-color: #1a2d45;
-      box-shadow: 0 4px 8px rgba(0,20,40,0.12);
-    }
-
-    .color-selector {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
-
-    .color-label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #1f344d;
-      margin-right: 0.2rem;
-    }
-
-    .color-dot {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 2px solid #dbe1ea;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: #d9d9d9;
-      display: inline-block;
-    }
-
-    .color-dot:hover {
-      transform: scale(1.05);
-      border-color: #7f93ad;
-    }
-
-    .color-dot.active {
-      border-color: #0b1a2f;
-      box-shadow: 0 0 0 3px white, 0 0 0 5px #0b1a2f;
-    }
-
-    .color-dot.green { background: #3b6b4b; }
-    .color-dot.navy { background: #1e3a5f; }
-    .color-dot.charcoal { background: #36454F; }
-
-    .add-to-cart {
-      display: flex;
-      gap: 1rem;
-      margin: 0.8rem 0 1rem;
-      flex-wrap: wrap;
-    }
-
-    .qty-box {
-      display: flex;
-      align-items: center;
-      background: #f1f5f9;
-      border-radius: 60px;
-      overflow: hidden;
-      border: 1px solid #dbe1ea;
-    }
-
-    .qty-btn {
-      background: transparent;
-      border: none;
-      width: 2.8rem;
-      height: 3rem;
-      font-size: 1.5rem;
-      font-weight: 300;
-      color: #1e3857;
-      cursor: pointer;
-      transition: 0.1s;
-      font-family: 'Inter', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
+      margin-top: 6px;
+      border: 1px solid #1e293b;
+    }
+    .add-btn i {
+      font-size: 0.9rem;
+    }
+    .add-btn:hover {
+      background: #0f172a;
+      transform: scale(0.98);
+    }
+    .add-btn:active {
+      background: #000;
     }
 
-    .qty-btn:hover {
-      background: #e2e9f2;
-    }
-
-    .qty-number {
-      width: 2.8rem;
+    /* empty state */
+    .empty-state {
       text-align: center;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #0b1a2f;
-      background: transparent;
-      border: none;
-      font-family: 'Inter', sans-serif;
+      padding: 4rem 1rem;
+      color: #64748b;
     }
-
-    .btn-primary {
-      background: #0b1a2f;
-      border: none;
-      color: white;
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 0 2.2rem;
-      border-radius: 60px;
-      height: 3rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 8px 18px -6px rgba(11, 26, 47, 0.25);
-      font-family: 'Inter', sans-serif;
-      flex: 1;
-      justify-content: center;
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #cbd5e1;
     }
-
-    .btn-primary i {
-      font-size: 1rem;
-    }
-
-    .btn-primary:hover {
-      background: #1e3a5f;
-      transform: scale(1.02);
-      box-shadow: 0 12px 24px -8px rgba(11, 26, 47, 0.3);
-    }
-
-    .btn-primary:active {
-      transform: scale(0.96);
-    }
-
-    .meta-info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      margin-top: 1.2rem;
-      border-top: 1px solid #e9edf3;
-      padding-top: 1.5rem;
-      font-size: 0.9rem;
-      color: #3f4e66;
-    }
-
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .meta-item i {
-      color: #5c718a;
-      width: 1.2rem;
-    }
-
-    /* notification */
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      background: #0b1a2f;
-      color: white;
-      padding: 0.8rem 2.2rem;
-      border-radius: 60px;
+    .empty-state h3 {
       font-weight: 500;
-      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2);
-      opacity: 0;
-      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1);
-      pointer-events: none;
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.95rem;
-      border: 1px solid rgba(255,255,255,0.05);
+      font-size: 1.4rem;
+      color: #1e293b;
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .toast i {
-      color: #b5e6c7;
+    footer {
+      border-top: 1px solid #e2e8f0;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: #64748b;
+      font-size: 0.9rem;
+      background: white;
     }
 
     /* responsive */
-    @media (max-width: 800px) {
-      .product-card {
-        grid-template-columns: 1fr;
-        border-radius: 1.8rem;
+    @media (max-width: 700px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: stretch;
       }
-      .details {
-        padding: 2rem 1.8rem;
+      .catalog-nav {
+        justify-content: center;
       }
-      .description {
-        max-width: 100%;
+      .cart-icon {
+        align-self: flex-end;
       }
-      .main-image {
-        font-size: 4.5rem;
-      }
-      .thumb {
-        width: 60px;
-        height: 60px;
-        font-size: 1.6rem;
+      .page-header {
+        flex-direction: column;
+        gap: 0.3rem;
       }
     }
-
-    @media (max-width: 500px) {
-      body { padding: 1rem 0.5rem; }
-      .product-title { font-size: 1.8rem; }
-      .current-price { font-size: 2rem; }
-      .btn-primary { flex: 1 1 auto; }
-    }
-
-    /* utility */
-    .fa-solid, .fa-regular { pointer-events: none; }
   </style>
 </head>
 <body>
-
-<div class="product-card">
-
-  <!-- left: gallery -->
-  <div class="gallery">
-    <div class="main-image" id="mainImage">
-      <i class="fas fa-backpack" style="font-size: 6rem;"></i>
-    </div>
-    <div class="thumbnails">
-      <div class="thumb active" data-icon="fa-backpack" data-bg="#dce5ef"><i class="fas fa-backpack"></i></div>
-      <div class="thumb" data-icon="fa-bag-shopping" data-bg="#d4dfea"><i class="fas fa-bag-shopping"></i></div>
-      <div class="thumb" data-icon="fa-suitcase" data-bg="#cad6e4"><i class="fas fa-suitcase"></i></div>
-      <div class="thumb" data-icon="fa-travel" data-bg="#c0cee0"><i class="fas fa-travel"></i></div>
-    </div>
-  </div>
-
-  <!-- right: details -->
-  <div class="details">
-    <div class="breadcrumb">
-      <span>Home</span> <i class="fas fa-chevron-right"></i>
-      <span>Bags</span> <i class="fas fa-chevron-right"></i>
-      <span>Backpacks</span>
-    </div>
-
-    <h1 class="product-title">Minimalist Backpack</h1>
-
-    <div class="rating">
-      <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span>
-      <span class="rating-text">4.8 (142 reviews)</span>
-    </div>
-
-    <div class="price-box">
-      <span class="current-price">$89.00</span>
-      <span class="old-price">$119.00</span>
-      <span class="discount-badge">−25%</span>
-    </div>
-
-    <p class="description">
-      Lightweight, water-resistant, and built for everyday carry. 20L capacity, padded laptop sleeve, and ergonomic shoulder straps.
-    </p>
-
-    <div class="options">
-      <div class="size-selector">
-        <span class="size-label"><i class="fas fa-ruler"></i> Size</span>
-        <button class="size-btn" data-size="S">S</button>
-        <button class="size-btn active" data-size="M">M</button>
-        <button class="size-btn" data-size="L">L</button>
-        <button class="size-btn" data-size="XL">XL</button>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <i class="fas fa-store-alt"></i> Catalog<span style="font-weight:400;">Hub</span>
       </div>
-
-      <div class="color-selector">
-        <span class="color-label"><i class="fas fa-palette"></i> Color</span>
-        <span class="color-dot green active" data-color="Green" style="background:#3b6b4b;"></span>
-        <span class="color-dot navy" data-color="Navy" style="background:#1e3a5f;"></span>
-        <span class="color-dot charcoal" data-color="Charcoal" style="background:#36454F;"></span>
+      <div class="catalog-nav" id="catalogNav">
+        <!-- catalog buttons injected by js -->
+      </div>
+      <div class="cart-icon">
+        <i class="fas fa-shopping-bag"></i> <span id="cartCount" class="cart-badge">0</span>
       </div>
     </div>
+  </header>
 
-    <div class="add-to-cart">
-      <div class="qty-box">
-        <button class="qty-btn" id="decrementQty">−</button>
-        <span class="qty-number" id="qtyDisplay">1</span>
-        <button class="qty-btn" id="incrementQty">+</button>
-      </div>
-      <button class="btn-primary" id="addToCartBtn">
-        <i class="fas fa-bag-shopping"></i> Add to cart
-      </button>
+  <main class="container">
+    <div class="page-header">
+      <h1 id="pageTitle">All Products <small id="catalogSub"></small></h1>
+      <span class="count" id="productCount">0 items</span>
     </div>
-
-    <div class="meta-info">
-      <span class="meta-item"><i class="fas fa-truck"></i> Free shipping</span>
-      <span class="meta-item"><i class="fas fa-rotate-left"></i> 30-day returns</span>
-      <span class="meta-item"><i class="fas fa-shield"></i> 2-year warranty</span>
+    <div id="productGrid" class="product-grid">
+      <!-- dynamic products -->
     </div>
-  </div>
-</div>
+  </main>
 
-<!-- toast notification -->
-<div id="toast" class="toast">
-  <i class="fas fa-check-circle"></i> <span id="toastMessage">Added to cart</span>
-</div>
+  <footer>
+    <i class="fas fa-tags" style="margin-right: 6px;"></i> Multi‑catalog demo · click catalog buttons to filter
+  </footer>
 
-<script>
-  (function() {
-    // ----- DOM refs -----
-    const mainImage = document.getElementById('mainImage');
-    const thumbs = document.querySelectorAll('.thumb');
-    const sizeBtns = document.querySelectorAll('.size-btn');
-    const colorDots = document.querySelectorAll('.color-dot');
-    const qtyDisplay = document.getElementById('qtyDisplay');
-    const decrementBtn = document.getElementById('decrementQty');
-    const incrementBtn = document.getElementById('incrementQty');
-    const addToCartBtn = document.getElementById('addToCartBtn');
-    const toast = document.getElementById('toast');
-    const toastMessage = document.getElementById('toastMessage');
+  <script>
+    (function() {
+      // ---------- DATA: multiple catalogs with products ----------
+      const catalogs = [
+        { id: 'all', label: '📦 All', icon: 'fa-th-large' },
+        { id: 'electronics', label: '📱 Electronics', icon: 'fa-laptop' },
+        { id: 'books', label: '📚 Books', icon: 'fa-book-open' },
+        { id: 'home', label: '🏠 Home & Kitchen', icon: 'fa-couch' },
+        { id: 'fashion', label: '👕 Fashion', icon: 'fa-tshirt' }
+      ];
 
-    // state
-    let currentQty = 1;
-    let selectedSize = 'M';
-    let selectedColor = 'Green';
+      const products = [
+        // Electronics
+        { id: 1, name: 'Wireless Noise-Canceling Headphones', price: 149.99, catalog: 'electronics', desc: 'Over-ear, 30h battery, deep bass.', icon: 'fa-headphones' },
+        { id: 2, name: 'Smart Fitness Tracker', price: 89.00, catalog: 'electronics', desc: 'Heart rate, GPS, sleep monitor.', icon: 'fa-heartbeat' },
+        { id: 3, name: 'Portable Bluetooth Speaker', price: 59.95, catalog: 'electronics', desc: 'Waterproof, 360° sound, 12h playtime.', icon: 'fa-music' },
+        // Books
+        { id: 4, name: 'The Alchemist (Paperback)', price: 16.99, catalog: 'books', desc: 'Paulo Coelho’s timeless classic.', icon: 'fa-book' },
+        { id: 5, name: 'Atomic Habits', price: 21.50, catalog: 'books', desc: 'Tiny changes, remarkable results.', icon: 'fa-book-open' },
+        { id: 6, name: 'Dune (Movie Tie-in)', price: 18.75, catalog: 'books', desc: 'Sci-fi epic by Frank Herbert.', icon: 'fa-rocket' },
+        // Home & Kitchen
+        { id: 7, name: 'Nonstick Frying Pan Set', price: 39.99, catalog: 'home', desc: '2-piece, induction ready, easy clean.', icon: 'fa-utensils' },
+        { id: 8, name: 'Bamboo Cutting Board', price: 27.50, catalog: 'home', desc: 'Eco-friendly, large, juice groove.', icon: 'fa-leaf' },
+        { id: 9, name: 'Smart Coffee Maker', price: 129.00, catalog: 'home', desc: 'WiFi, programmable, 12-cup.', icon: 'fa-coffee' },
+        // Fashion
+        { id: 10, name: 'Men’s Classic T-Shirt', price: 24.90, catalog: 'fashion', desc: '100% cotton, regular fit, 4 colors.', icon: 'fa-tshirt' },
+        { id: 11, name: 'Women’s Jogger Pants', price: 39.90, catalog: 'fashion', desc: 'Soft fleece, elastic waist, pockets.', icon: 'fa-female' },
+        { id: 12, name: 'Suede Leather Belt', price: 34.50, catalog: 'fashion', desc: 'Genuine leather, classic buckle.', icon: 'fa-bolt' },
+        // extra electronics for more variety
+        { id: 13, name: 'Wireless Charging Pad', price: 29.99, catalog: 'electronics', desc: 'Qi-compatible, LED indicator.', icon: 'fa-bolt' },
+        { id: 14, name: '4K Action Camera', price: 199.00, catalog: 'electronics', desc: 'Waterproof, image stabilization.', icon: 'fa-camera' },
+        // extra books
+        { id: 15, name: '1984 (Signet Classics)', price: 9.99, catalog: 'books', desc: 'Orwell’s dystopian masterpiece.', icon: 'fa-eye' },
+        // extra home
+        { id: 16, name: 'Ceramic Plant Pot', price: 19.99, catalog: 'home', desc: 'Modern, self-watering, 6 inch.', icon: 'fa-pagelines' }
+      ];
 
-    // ----- gallery thumbnails -----
-    thumbs.forEach(thumb => {
-      thumb.addEventListener('click', function(e) {
-        // remove active class from all
-        thumbs.forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
+      // ---------- state ----------
+      let currentCatalog = 'all';   // 'all' or catalog id
+      let cartItemsCount = 0;
 
-        // get icon & bg
-        const iconClass = this.dataset.icon;
-        const bg = this.dataset.bg || '#e2e8f0';
-        // set main image: change icon and background
-        mainImage.innerHTML = `<i class="fas ${iconClass}" style="font-size: 6rem;"></i>`;
-        mainImage.style.background = bg;
-      });
-    });
+      // DOM elements
+      const catalogNav = document.getElementById('catalogNav');
+      const productGrid = document.getElementById('productGrid');
+      const pageTitle = document.getElementById('pageTitle');
+      const catalogSub = document.getElementById('catalogSub');
+      const productCount = document.getElementById('productCount');
+      const cartCountSpan = document.getElementById('cartCount');
 
-    // ----- size selection -----
-    sizeBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        sizeBtns.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        selectedSize = this.dataset.size;
-      });
-    });
+      // ---------- render products based on current catalog ----------
+      function renderProducts() {
+        const filtered = currentCatalog === 'all' 
+          ? products 
+          : products.filter(p => p.catalog === currentCatalog);
 
-    // ----- color selection -----
-    colorDots.forEach(dot => {
-      dot.addEventListener('click', function() {
-        colorDots.forEach(d => d.classList.remove('active'));
-        this.classList.add('active');
-        selectedColor = this.dataset.color;
-      });
-    });
+        // update count & title
+        productCount.textContent = filtered.length + ' items';
+        const catalogLabel = catalogs.find(c => c.id === currentCatalog)?.label || 'All';
+        pageTitle.innerHTML = `${catalogLabel} <small id="catalogSub"></small>`;
+        document.getElementById('catalogSub').textContent = currentCatalog === 'all' ? '· all catalogs' : '';
 
-    // ----- quantity controls -----
-    function updateQty(value) {
-      let newVal = currentQty + value;
-      if (newVal < 1) newVal = 1;
-      if (newVal > 10) newVal = 10;
-      currentQty = newVal;
-      qtyDisplay.textContent = currentQty;
-    }
+        if (filtered.length === 0) {
+          productGrid.innerHTML = `
+            <div class="empty-state" style="grid-column:1/-1;">
+              <i class="fas fa-box-open"></i>
+              <h3>No products in this catalog</h3>
+              <p style="margin-top:6px;">Try switching to another catalog.</p>
+            </div>
+          `;
+          return;
+        }
 
-    decrementBtn.addEventListener('click', () => updateQty(-1));
-    incrementBtn.addEventListener('click', () => updateQty(1));
+        // build grid
+        let html = '';
+        filtered.forEach(product => {
+          const catalogInfo = catalogs.find(c => c.id === product.catalog);
+          const catalogLabel = catalogInfo ? catalogInfo.label : product.catalog;
+          // icon fallback
+          const iconClass = product.icon || 'fa-cube';
+          html += `
+            <div class="product-card" data-id="${product.id}">
+              <div class="product-image">
+                <i class="fas ${iconClass}"></i>
+              </div>
+              <div class="product-title">${product.name}</div>
+              <span class="product-catalog-tag"><i class="fas ${catalogInfo?.icon || 'fa-tag'}"></i> ${catalogLabel}</span>
+              <div class="product-desc">${product.desc}</div>
+              <div class="product-price">$${product.price.toFixed(2)} <small>USD</small></div>
+              <button class="add-btn" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">
+                <i class="fas fa-plus-circle"></i> Add to cart
+              </button>
+            </div>
+          `;
+        });
+        productGrid.innerHTML = html;
 
-    // ----- add to cart (with toast) -----
-    function showToast(message) {
-      toastMessage.textContent = message || 'Added to cart';
-      toast.classList.add('show');
-      clearTimeout(window.toastTimeout);
-      window.toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2500);
-    }
+        // attach add-to-cart listeners
+        document.querySelectorAll('.add-btn').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const name = this.dataset.name;
+            const price = parseFloat(this.dataset.price);
+            addToCart(name, price);
+          });
+        });
+      }
 
-    addToCartBtn.addEventListener('click', function() {
-      // build feedback message
-      const msg = `🛒 ${currentQty} × Minimalist Backpack (${selectedSize}, ${selectedColor})`;
-      showToast(msg);
-      
-      // optional micro feedback: button pulse
-      this.style.transform = 'scale(0.96)';
-      setTimeout(() => { this.style.transform = ''; }, 150);
-    });
+      // ---------- add to cart (simple counter) ----------
+      function addToCart(name, price) {
+        cartItemsCount += 1;
+        cartCountSpan.textContent = cartItemsCount;
+        // subtle feedback (optional)
+        const badge = cartCountSpan;
+        badge.style.transform = 'scale(1.3)';
+        setTimeout(() => badge.style.transform = 'scale(1)', 150);
+        // you could also log: console.log(`Added: ${name} $${price}`);
+      }
 
-    // ----- extra: set default active color (already active in html) -----
-    // but ensure first color dot is active
-    const firstColor = document.querySelector('.color-dot');
-    if (firstColor && !firstColor.classList.contains('active')) {
-      firstColor.classList.add('active');
-    }
+      // ---------- render catalog navigation buttons ----------
+      function renderCatalogNav() {
+        let html = '';
+        catalogs.forEach(cat => {
+          const activeClass = (currentCatalog === cat.id) ? 'active' : '';
+          html += `
+            <button class="catalog-btn ${activeClass}" data-catalog="${cat.id}">
+              <i class="fas ${cat.icon}"></i> ${cat.label}
+            </button>
+          `;
+        });
+        catalogNav.innerHTML = html;
 
-    // sync default size active
-    const defaultSize = document.querySelector('.size-btn.active');
-    if (defaultSize) selectedSize = defaultSize.dataset.size;
+        // attach catalog switch event
+        document.querySelectorAll('.catalog-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const catalogId = this.dataset.catalog;
+            if (catalogId === currentCatalog) return;
+            // update active state
+            document.querySelectorAll('.catalog-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentCatalog = catalogId;
+            renderProducts();
+          });
+        });
+      }
 
-    // initial toast (silent) – just to show nothing on load
-    // but we keep it hidden
-  })();
-</script>
+      // ---------- init ----------
+      function init() {
+        renderCatalogNav();
+        renderProducts();
+        // cart count starts at 0
+        cartCountSpan.textContent = '0';
+      }
 
-<!-- additional note: using Font Awesome free icons, some icons like fa-travel are aliases, but all work -->
+      init();
+    })();
+  </script>
 </body>
 </html>
